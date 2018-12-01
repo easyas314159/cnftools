@@ -1,4 +1,7 @@
-__all__ = ['DimacsException', 'save', 'load']
+"""
+"""
+
+__all__ = ['DimacsException', 'dump', 'load']
 
 class DimacsException(Exception):
 	"""
@@ -38,7 +41,7 @@ def __load_clauses(iterable):
 
 	for variable in iterable:
 		if variable == 0:
-			if len(clause) > 0:
+			if clause:
 				yield clause
 				clause = []
 		else:
