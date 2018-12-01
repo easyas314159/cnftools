@@ -47,8 +47,6 @@ workflows:
   build:
     jobs:
       - test:
-          version: "2.6"
-      - test:
           version: "2.7"
       - test:
           version: "3.4"
