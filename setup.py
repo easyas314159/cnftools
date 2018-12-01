@@ -17,7 +17,7 @@ def readme():
 setuptools.setup(
     name='cnftools',
 	version=VERSION,
-	python_requires='>=3.5',
+	python_requires='>=3.4',
     author='Kevin Loney',
     author_email='kevin.loney@brainsinjars.com',
     description='A collection of tools for working with and generating Dimacs CNF files.',
@@ -32,6 +32,7 @@ setuptools.setup(
 		'License :: OSI Approved :: MIT License',
 		'Operating System :: OS Independent',
 		'Programming Language :: Python :: 3',
+		'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
