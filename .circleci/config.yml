@@ -34,7 +34,7 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
 
-       - run:
+      - run:
           name: Run Tests
           command: |
             . venv/bin/activate
