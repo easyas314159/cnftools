@@ -55,7 +55,7 @@ def load(file):
 	"""
 	yield from __load_clauses(__load_lines(file))
 
-def dump(clauses, file):
+def dump(clauses, file, comment=None):
 	"""
 	"""
 
@@ -66,6 +66,10 @@ def dump(clauses, file):
 
 	for clause in clauses:
 		literals.update((abs(l) for l in clause))
+
+	if comment:
+		for line in comment.splitlines():
+			print('c {comment:s}'.format(comment=line), file=file)
 
 	print('p cnf {literals:d} {clauses:d}'.format(literals=len(literals), clauses=len(clauses)), file=file)
 
