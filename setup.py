@@ -40,6 +40,11 @@ setuptools.setup(
 		'Topic :: Scientific/Engineering :: Mathematics',
 		'Topic :: Utilities',
     ],
+	entry_points={
+		'console_scripts': [
+			'to3cnf = cnftools.cmdline.to3cnf:main',
+		],
+	},
 	install_requires=[
 
 	],
