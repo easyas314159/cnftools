@@ -20,10 +20,10 @@ jobs:
       - checkout
 
 workflows:
-  version 2:
-    build:
-      jobs:
-        - lint
-        - test:
-          requires:
-            - lint
+  version: 2
+  build:
+    jobs:
+      - lint
+      - test:
+        requires:
+          - lint
