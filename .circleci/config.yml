@@ -2,8 +2,12 @@ version: 2.1
 
 jobs:
   test:
+    parameters:
+      version:
+        type: string
+        default: latest
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:<< parameters.version >>
 
     working_directory: ~/repo
 
@@ -11,13 +15,32 @@ jobs:
       - checkout
 
   lint:
+    parameters:
+      version:
+        type: string
+        default: latest
+
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:<< parameters.version >>
 
     working_directory: ~/repo
 
     steps:
       - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+            - v1-dependencies-{{ .Branch }}-
+            - v1-dependencies-
+
+      # TODO: Install dependecies
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
 
 workflows:
   version: 2
@@ -25,5 +48,3 @@ workflows:
     jobs:
       - lint
       - test
-        requires:
-          - lint
