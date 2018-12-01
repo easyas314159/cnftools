@@ -6,19 +6,6 @@ jobs:
       version:
         type: string
         default: latest
-    docker:
-      - image: circleci/python:<< parameters.version >>
-
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-  lint:
-    parameters:
-      version:
-        type: string
-        default: latest
 
     docker:
       - image: circleci/python:<< parameters.version >>
@@ -31,20 +18,43 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+            - v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
             - v1-dependencies-{{ .Branch }}-
             - v1-dependencies-
 
-      # TODO: Install dependecies
+      - run:
+          name: Install Python Dependencies
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            make dev
 
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
+
+       - run:
+          name: Run Tests
+          command: |
+            . venv/bin/activate
+            make test
+
+      # TODO: Store test artifacts
 
 workflows:
   version: 2
   build:
     jobs:
-      - lint
-      - test
+      - test:
+          version: "2.6"
+      - test:
+          version: "2.7"
+      - test:
+          version: "3.4"
+      - test:
+          version: "3.5"
+      - test:
+          version: "3.6"
+      - test:
+          version: "3.7"
