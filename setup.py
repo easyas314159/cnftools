@@ -43,6 +43,7 @@ setuptools.setup(
 	entry_points={
 		'console_scripts': [
 			'to3cnf = cnftools.cmdline.to3cnf:main',
+			'kcoloring = cnftools.cmdline.kcoloring:main',
 		],
 	},
 	install_requires=[
