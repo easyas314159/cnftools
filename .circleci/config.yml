@@ -45,13 +45,16 @@ commands:
         type: string
       password:
         type: string
+      path:
+        type: string
+        default: ~/.pypirc
     steps:
       - run:
           name: "Write .pypirc"
           command: |
-            echo -e "[pypi]" >> ~/.pypirc
-            echo -e "username = << parameters.username >>" >> ~/.pypirc
-            echo -e "password = << parameters.password >>" >> ~/.pypirc
+            echo -e "[pypi]" >> << parameters.path >>
+            echo -e "username = << parameters.username >>" >> << parameters.path >>
+            echo -e "password = << parameters.password >>" >> << parameters.path >>
 
 jobs:
   test:
@@ -95,6 +98,7 @@ jobs:
     steps:
       - initialize
       - pypirc:
+          path: ~/.pypirc
           username: << parameters.username >>
           password: << parameters.password >>
       - make:
