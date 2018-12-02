@@ -6,10 +6,10 @@ dev:
 	pip install -r requirements.dev.txt
 	pip install -e .
 
-lint: dev
+lint:
 	pylint cnftools -v --reports=y --output-format=parseable || pylint-exit $$?
 
-test: lint
+test:
 
 dist:
 	python setup.py sdist bdist_wheel
