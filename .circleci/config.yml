@@ -2,15 +2,19 @@ version: 2.1
 
 commands:
   initialize:
+    parameters:
+      version:
+        type: string
+        default: latest
     steps:
       - checkout
 
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
-            - v1-dependencies-{{ .Branch }}-
-            - v1-dependencies-
+            - v1-dependencies-<< parameters.version >>-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
+            - v1-dependencies-<< parameters.version >>-{{ .Branch }}-
+            - v1-dependencies-<< parameters.version >>-
 
       - run:
           name: Install Python Dependencies
@@ -52,6 +56,7 @@ jobs:
 
     steps:
       - initialize
+        version: << parameters.version >>
 
       - run:
           name: Run Tests
@@ -106,7 +111,6 @@ workflows:
           name: "test-python3.7"
           version: "3.7"
       - deploy:
-          version: "3.7"
           username: $PYPI_USERNAME
           password: $PYPI_PASSWORD
           requires:
