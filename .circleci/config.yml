@@ -99,16 +99,16 @@ workflows:
   build:
     jobs:
       - test:
-          name: "python3.4"-test
+          name: "python3.4-test"
           version: "3.4"
       - test:
-          name: "python3.5"-test
+          name: "python3.5-test"
           version: "3.5"
       - test:
-          name: "python3.6"-test
+          name: "python3.6-test"
           version: "3.6"
       - test:
-          name: "python3.7"-test
+          name: "python3.7-test"
           version: "3.7"
       - deploy:
           username: $PYPI_USERNAME
