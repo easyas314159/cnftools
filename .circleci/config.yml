@@ -24,18 +24,19 @@ commands:
             - ./venv
           key: v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
 
-
   pypirc:
-    description: "Write .pypirc"
     parameters:
       username:
         type: string
       password:
         type: string
-    command: |
-      echo -e "[pypi]" >> ~/.pypirc
-      echo -e "username = << parameters.username >>" >> ~/.pypirc
-      echo -e "password = << parameters.password >>" >> ~/.pypirc
+    steps:
+      - run:
+        name: "Write .pypirc"
+        command: |
+          echo -e "[pypi]" >> ~/.pypirc
+          echo -e "username = << parameters.username >>" >> ~/.pypirc
+          echo -e "password = << parameters.password >>" >> ~/.pypirc
 
 jobs:
   test:
