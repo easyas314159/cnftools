@@ -36,9 +36,7 @@ setuptools.setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-		'Software Development :: Libraries',
 		'Topic :: Scientific/Engineering :: Mathematics',
-		'Topic :: Utilities',
     ],
 	entry_points={
 		'console_scripts': [
