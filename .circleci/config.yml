@@ -70,11 +70,9 @@ jobs:
           version: << parameters.version >>
 
       - make:
-          name: Run linter
           target: lint
 
       - make:
-          name: Run tests
           target: test
 
       # TODO: Store test artifacts
