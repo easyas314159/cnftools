@@ -77,7 +77,7 @@ jobs:
         default: latest
 
     docker:
-      - image: circleci/python::<< parameters.version >>
+      - image: circleci/python:<< parameters.version >>
 
     working_directory: ~/repo
 
