@@ -15,7 +15,7 @@ dist:
 	python3 setup.py sdist bdist_wheel
 
 deploy: dist
-	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+	twine upload --verbose dist/*
 
 clean:
 	rm -rf dist/
