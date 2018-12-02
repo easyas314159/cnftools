@@ -98,7 +98,6 @@ jobs:
           username: << parameters.username >>
           password: << parameters.password >>
       - make:
-          name: Deploy to PyPI
           target: deploy
       - store_artifacts:
           path: dist/
