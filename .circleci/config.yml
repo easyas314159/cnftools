@@ -55,7 +55,7 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - initialize
+      - initialize:
           version: << parameters.version >>
 
       - run:
