@@ -12,7 +12,7 @@ lint:
 test:
 
 dist:
-	python setup.py sdist bdist_wheel
+	python3 setup.py sdist bdist_wheel
 
 deploy: dist
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
