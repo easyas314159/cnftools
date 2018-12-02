@@ -1,17 +1,7 @@
 version: 2.1
 
-jobs:
-  test:
-    parameters:
-      version:
-        type: string
-        default: latest
-
-    docker:
-      - image: circleci/python:<< parameters.version >>
-
-    working_directory: ~/repo
-
+commands:
+  initialize:
     steps:
       - checkout
 
@@ -33,6 +23,22 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
+
+
+jobs:
+  test:
+    parameters:
+      version:
+        type: string
+        default: latest
+
+    docker:
+      - image: circleci/python:<< parameters.version >>
+
+    working_directory: ~/repo
+
+    steps:
+      - initialize
 
       - run:
           name: Run Tests
