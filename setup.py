@@ -49,7 +49,7 @@ setuptools.setup(
 
 	],
 	extras_require={
-
+		'coloring': ['networkx>=2.2'],
 	},
 	include_package_data=True
 )
