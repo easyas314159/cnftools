@@ -32,11 +32,11 @@ commands:
         type: string
     steps:
       - run:
-        name: "Write .pypirc"
-        command: |
-          echo -e "[pypi]" >> ~/.pypirc
-          echo -e "username = << parameters.username >>" >> ~/.pypirc
-          echo -e "password = << parameters.password >>" >> ~/.pypirc
+          name: "Write .pypirc"
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = << parameters.username >>" >> ~/.pypirc
+            echo -e "password = << parameters.password >>" >> ~/.pypirc
 
 jobs:
   test:
