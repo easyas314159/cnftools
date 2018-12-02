@@ -30,13 +30,11 @@ commands:
 
   make:
     parameters:
-      name:
-        type: string
       target:
         type: string
     steps:
       - run:
-          name: "<< parameters.name >>"
+          name: "make << parameters.target >>"
           command: |
             . venv/bin/activate
             make << parameters.target >>
