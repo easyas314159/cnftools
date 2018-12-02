@@ -10,5 +10,5 @@ def color(graph, chromatic_number):
 		yield literals[node]
 		yield from [[-u, -v] for u, v in combinations(literals[node], r=2)]
 
-	for u, v in graph.edges():
-		yield from [[-l0, -l1] for l0, l1 in zip(literals[u], literals[v])]
+	for node0, node1 in graph.edges():
+		yield from [[-l0, -l1] for l0, l1 in zip(literals[node0], literals[node1])]

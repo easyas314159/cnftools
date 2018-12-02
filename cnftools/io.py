@@ -9,6 +9,9 @@ class DimacsException(Exception):
 	def __init__(self, msg, lineno, line):
 		"""
 		"""
+
+		super(DimacsException, self).__init__()
+
 		self.message = msg
 		self.lineno = lineno
 		self.line = line
