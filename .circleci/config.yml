@@ -94,19 +94,26 @@ workflows:
   build:
     jobs:
       - test:
+          name: "test-python3.4"
           version: "3.4"
       - test:
+          name: "test-python3.5"
           version: "3.5"
       - test:
+          name: "test-python3.6"
           version: "3.6"
       - test:
+          name: "test-python3.7"
           version: "3.7"
       - deploy:
           version: "3.7"
           username: $PYPI_USERNAME
           password: $PYPI_PASSWORD
           requires:
-            - test
+            - test-python3.4
+            - test-python3.5
+            - test-python3.6
+            - test-python3.7
           filters:
             branches:
               only: master
