@@ -28,6 +28,19 @@ commands:
             - ./venv
           key: v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
 
+  make:
+    parameters:
+      name:
+        type: string
+      target:
+        type: string
+    steps:
+      - run:
+          name: "<< parameters.name >>"
+          command: |
+            . venv/bin/activate
+            make << parameters.target >>
+
   pypirc:
     parameters:
       username:
@@ -58,11 +71,13 @@ jobs:
       - initialize:
           version: << parameters.version >>
 
-      - run:
-          name: Run Tests
-          command: |
-            . venv/bin/activate
-            make test
+      - make:
+          name: Run linter
+          target: lint
+
+      - make:
+          name: Run tests
+          target: test
 
       # TODO: Store test artifacts
 
@@ -86,11 +101,9 @@ jobs:
       - pypirc:
           username: << parameters.username >>
           password: << parameters.password >>
-      - run:
+      - make:
           name: Deploy to PyPI
-          command: |
-            . venv/bin/activate
-            make deploy
+          target: deploy
       - store_artifacts:
           path: dist/
 
