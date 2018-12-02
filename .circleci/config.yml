@@ -80,6 +80,13 @@ jobs:
       - pypirc:
         username: << parameters.username >>
         password: << parameters.password >>
+      - run:
+          name: Deploy to PyPI
+          command: |
+            . venv/bin/activate
+            make deploy
+      - store_artifacts:
+          path: dist/
 
 workflows:
   version: 2

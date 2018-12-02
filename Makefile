@@ -11,5 +11,11 @@ lint: dev
 
 test: lint
 
+dist:
+	python setup.py sdist bdist_wheel
+
+deploy: dist
+	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
 clean:
 	rm -rf dist/
