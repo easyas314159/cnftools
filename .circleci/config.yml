@@ -79,8 +79,8 @@ jobs:
     steps:
       - initialize
       - pypirc:
-        username: << parameters.username >>
-        password: << parameters.password >>
+          username: << parameters.username >>
+          password: << parameters.password >>
       - run:
           name: Deploy to PyPI
           command: |
