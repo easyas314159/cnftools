@@ -39,23 +39,6 @@ commands:
             . venv/bin/activate
             make << parameters.target >>
 
-  pypirc:
-    parameters:
-      username:
-        type: string
-      password:
-        type: string
-      path:
-        type: string
-        default: ~/.pypirc
-    steps:
-      - run:
-          name: "Write .pypirc"
-          command: |
-            echo -e "[pypi]" >> << parameters.path >>
-            echo -e "username = << parameters.username >>" >> << parameters.path >>
-            echo -e "password = << parameters.password >>" >> << parameters.path >>
-
 jobs:
   test:
     parameters:
@@ -92,15 +75,14 @@ jobs:
 
     docker:
       - image: circleci/python:<< parameters.version >>
+    environment:
+      TWINE_USERNAME: << parameters.username >>
+      TWINE_PASSWORD: << parameters.password >>
 
     working_directory: ~/repo
 
     steps:
       - initialize
-      - pypirc:
-          path: ~/.pypirc
-          username: << parameters.username >>
-          password: << parameters.password >>
       - make:
           target: deploy
       - store_artifacts:
