@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - initialize
-        version: << parameters.version >>
+          version: << parameters.version >>
 
       - run:
           name: Run Tests
