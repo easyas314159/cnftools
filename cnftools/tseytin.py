@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-import argparse
-import cnftools
-
 __all__ = ['to_3cnf']
 
 def to_3cnf(clauses):

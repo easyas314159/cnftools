@@ -1,5 +1,3 @@
-import argparse
-
 from itertools import combinations
 
 def color(graph, chromatic_number):
