@@ -65,19 +65,12 @@ jobs:
 
   deploy:
     parameters:
-      username:
-        type: string
-      password:
-        type: string
       version:
         type: string
         default: latest
 
     docker:
       - image: circleci/python:<< parameters.version >>
-    environment:
-      TWINE_USERNAME: << parameters.username >>
-      TWINE_PASSWORD: << parameters.password >>
 
     working_directory: ~/repo
 
@@ -105,8 +98,6 @@ workflows:
           name: "python3.7-test"
           version: "3.7"
       - deploy:
-          username: $PYPI_USERNAME
-          password: $PYPI_PASSWORD
           requires:
             - python3.4-test
             - python3.5-test
