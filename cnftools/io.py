@@ -1,4 +1,4 @@
-"""
+"""Functions to loading and saving Dimacs CNF files.
 """
 
 __all__ = ['DimacsException', 'dump', 'load']
@@ -22,6 +22,7 @@ def __load_lines(file):
 	expect_problem = True
 
 	for index, line in enumerate(file):
+	"""Load lines from a Dimacs CNF file while striping out comments and empty lines"""
 		line = line.strip()
 
 		if line == '' or line[0] == 'c':
@@ -54,12 +55,12 @@ def __load_clauses(iterable):
 		yield clause
 
 def load(file):
-	"""
+	"""Load a Dimacs CNF file
 	"""
 	yield from __load_clauses(__load_lines(file))
 
 def dump(clauses, file, comment=None):
-	"""
+	"""Write a collection of clauses to to file in Dimacs CNF format
 	"""
 
 	literals = set()
