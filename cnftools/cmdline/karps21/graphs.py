@@ -68,3 +68,30 @@ def balanced_tree(subparser):
 	parser.set_defaults(generate=generate, describe=describe)
 
 	return parser
+
+# NetworkX graph file loaders
+
+def adjlist(subparser):
+	"""Initialize command-line arguments and generators for loading adjaceny lists
+	"""
+	parser = subparser.add_parser(
+		'adjlist',
+		description="""
+		Read an adjacency list from file.
+		"""
+	)
+	parser.add_argument(
+		'-i', '--input',
+		type=str,
+		required=True,
+		help='Path to adjacency list file'
+	)
+
+	def generate(args):
+		return nx.read_adjlist(args.input)
+	def describe(args):
+		return 'Adjacency list loaded from {input:s}'.format(input=args.input)
+
+	parser.set_defaults(generate=generate, describe=describe)
+
+	return parser
