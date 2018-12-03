@@ -1,5 +1,6 @@
 """Functions to loading and saving Dimacs CNF files.
 """
+import re
 
 __all__ = ['DimacsException', 'dump', 'load']
 
@@ -18,29 +19,26 @@ class DimacsException(Exception):
 		self.line = line
 
 def __load_lines(file):
-	"""
-	"""
-	expect_problem = True
-
-	for index, line in enumerate(file):
 	"""Load lines from a Dimacs CNF file while striping out comments and empty lines"""
+	for lineno, line in enumerate(file, start=1):
 		line = line.strip()
-
 		if line == '' or line[0] == 'c':
 			continue
-		elif line[0] == 'p':
-			if expect_problem:
-				expect_problem = False
-			else:
-				raise DimacsException('Unexpected problem definition', index, line)
-		else:
-			if expect_problem:
-				raise DimacsException('Syntax error', index, line)
+		yield (lineno, line)
 
-			yield from (int(var) for var in line.split())
+LITERAL_TEST = re.compile('-?[1-9][0-9]*')
+
+def __load_literals(iterable):
+	"""Create a stream of literals from lines
+	"""
+	for lineno, line in iterable:
+		for literal in line.split():
+			if not (literal == '0' or LITERAL_TEST.match(literal)):
+				raise DimacsException('Syntax error', lineno, line)
+			yield int(literal)
 
 def __load_clauses(iterable):
-	"""
+	"""Given an iterable of literals construct clauses spliting on 0
 	"""
 	clause = []
 
@@ -58,7 +56,31 @@ def __load_clauses(iterable):
 def load(file):
 	"""Load a Dimacs CNF file
 	"""
-	yield from __load_clauses(__load_lines(file))
+
+	lines = __load_lines(file)
+
+	# The first line we get should be a problem definition
+	lineno, line = next(lines)
+	if line[0] != 'p':
+		raise DimacsException('Expected problem definition', lineno, line)
+
+	# Validate the problem definition
+	problem = line.split()
+	if not (len(problem) == 4 and problem[0] == 'p' and problem[1] == 'cnf'):
+		raise DimacsException('Invalid problem definition', lineno, line)
+
+	# FIXME: A DimacsException would be more meaningful here instead of a ValueError
+	literal_count = int(problem[2])
+	clause_count = int(problem[3])
+
+	# TODO: Range check the literal and clause count
+
+	# Return the header and a generator of clauses
+	return (
+		literal_count,
+		clause_count,
+		__load_clauses(__load_literals(lines))
+	)
 
 def dump(clauses, file, comment=None):
 	"""Write a collection of clauses to to file in Dimacs CNF format
