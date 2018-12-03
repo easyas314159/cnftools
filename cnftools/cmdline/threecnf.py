@@ -2,10 +2,12 @@ import argparse
 
 import cnftools
 
-def get_cli_arguments():
-	parser = argparse.ArgumentParser(
+def add_arguments(subparser):
+	parser = subparser.add_parser(
+		'3cnf',
 		description='Converts a generalized CNF into 3-CNF using the Tseytin transformation.'
 	)
+	parser.set_defaults(command=main)
 
 	# TODO: Refactor this to allow reading from stdin
 	# TODO: Refactor this to allow writing to stdout
@@ -22,11 +24,9 @@ def get_cli_arguments():
 		help='Path to the resulting 3-CNF equivalent'
 	)
 
-	return parser.parse_args()
+	return parser
 
-def main():
-	args = get_cli_arguments()
-
+def main(args):
 	with open(args.input, 'r') as file:
 		original = list(cnftools.load(file))
 
@@ -34,6 +34,3 @@ def main():
 
 	with open(args.output, 'w') as file:
 		cnftools.dump(transformed, file)
-
-if __name__ == '__main__':
-	main()
