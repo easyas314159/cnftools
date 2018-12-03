@@ -23,7 +23,7 @@ setuptools.setup(
     description='A collection of tools for working with and generating Dimacs CNF files.',
 	long_description=readme(),
     url='https://github.com/easyas314159/cnftools',
-	license="MIT",
+	license='MIT',
 	keywords='dimacs cnf sat 3-cnf 3-sat 3cnf 3sat',
     packages=setuptools.find_packages(),
     classifiers=[
