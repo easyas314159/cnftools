@@ -6,13 +6,14 @@ __all__ = ['DimacsException', 'dump', 'load']
 class DimacsException(Exception):
 	"""
 	"""
-	def __init__(self, msg, lineno, line):
+	def __init__(self, message, lineno, line):
 		"""
 		"""
 
-		super(DimacsException, self).__init__()
+		super(DimacsException, self).__init__('{message:s}[{lineno:d}]: {line:s}'.format(
+			message=message, lineno=lineno, line=line
+		))
 
-		self.message = msg
 		self.lineno = lineno
 		self.line = line
 
