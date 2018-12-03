@@ -6,7 +6,11 @@ from . import clique
 def add_arguments(subparser):
 	parser = subparser.add_parser(
 		'karps21',
-		description='Converts a generalized CNF into 3-CNF using the Tseytin transformation.'
+		description="""
+		Tools for generating CNF files representing Karp\'s 21 NP-Complete problems.
+
+		See: Karp, Richard M. "Reducibility among combinatorial problems." Complexity of computer computations. Springer, Boston, MA, 1972. 85-103.
+		"""
 	)
 
 	karpsparser = parser.add_subparsers(
