@@ -1,6 +1,7 @@
 import argparse
 
 from . import coloring
+from . import clique
 
 def add_arguments(subparser):
 	parser = subparser.add_parser(
@@ -15,6 +16,7 @@ def add_arguments(subparser):
 	)
 
 	coloring.add_arguments(karpsparser)
+	clique.add_arguments(karpsparser)
 
 	return parser
 
