@@ -2,6 +2,8 @@
 __all__ = ['to_3cnf']
 
 def to_3cnf(clauses):
+	clauses = list(clauses)
+
 	literals = set()
 	for clause in clauses:
 		literals.update((abs(l) for l in clause))
