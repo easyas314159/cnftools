@@ -9,6 +9,8 @@ Version x.x.x
 Version 0.0.1
 -------------
 
+December 2, 2018
+
 Initial release
 
 - Utility functions
