@@ -28,9 +28,8 @@ def add_arguments(subparser):
 
 def main(args):
 	with open(args.input, 'r') as file:
-		original = list(cnftools.load(file))
-
-	transformed = cnftools.to_3cnf(original)
+		_, _, original = cnftools.load(file)
+		transformed = cnftools.to_3cnf(original)
 
 	with open(args.output, 'w') as file:
 		cnftools.dump(transformed, file)
