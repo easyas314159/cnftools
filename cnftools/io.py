@@ -99,8 +99,6 @@ def dump(clauses, file, comment=None):
 	"""
 
 	literals = set()
-
-	# TODO: This is here in case clauses is a generator is there a better way to handl that case?
 	clauses = list(clauses)
 
 	for clause in clauses:
