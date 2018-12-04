@@ -69,17 +69,29 @@ def load(file):
 	if not (len(problem) == 4 and problem[0] == 'p' and problem[1] == 'cnf'):
 		raise DimacsException('Invalid problem definition', lineno, line)
 
-	# FIXME: A DimacsException would be more meaningful here instead of a ValueError
-	literal_count = int(problem[2])
-	clause_count = int(problem[3])
+	try:
+		nliterals = int(problem[2])
+		if nliterals < 0:
+			raise DimacsException('Negative literal count', lineno, line)
+	except ValueError:
+		raise DimacsException('Invalid literal count', lineno, line)
 
-	# TODO: Range check the literal and clause count
+	try:
+		nclauses = int(problem[3])
+		if nclauses < 0:
+			raise DimacsException('Negative clause count', lineno, line)
+	except ValueError:
+		raise DimacsException('Invalid clause count', lineno, line)
 
-	# Return the header and a generator of clauses
+	# Create stream of literals
+	literals = __load_literals(lines)
+	# Convert literal stream into clauses
+	clauses = __load_clauses(literals)
+	# Return the header and a clause generator
 	return (
-		literal_count,
-		clause_count,
-		__load_clauses(__load_literals(lines))
+		nliterals,
+		nclauses,
+		clauses
 	)
 
 def dump(clauses, file, comment=None):
