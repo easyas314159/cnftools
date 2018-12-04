@@ -14,6 +14,9 @@ def get_cli_arguments():
 	# CNF to 3-CNF conversion
 	cmdline.threecnf.add_arguments(subparser)
 
+	# CNF simplification tool
+	cmdline.simplify.add_arguments(subparser)
+
 	# Karp's 21 NP-complete problems
 	cmdline.karps21.add_arguments(subparser)
 
