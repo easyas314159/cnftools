@@ -4,11 +4,11 @@ from itertools import combinations
 
 import networkx as nx
 
-def color(graph, chromatic_number):
+def chromatic_number(graph, k):
 	literals = {}
 	for node in graph.nodes():
-		index = chromatic_number * node + 1
-		literals[node] = list(range(index, index + chromatic_number))
+		index = k * node + 1
+		literals[node] = list(range(index, index + k))
 
 	for node in graph.nodes():
 		yield literals[node]
@@ -17,8 +17,8 @@ def color(graph, chromatic_number):
 	for node0, node1 in graph.edges():
 		yield from [[-l0, -l1] for l0, l1 in zip(literals[node0], literals[node1])]
 
-def clique(graph, minimum):
-	yield from color(
+def clique_cover(graph, k):
+	yield from chromatic_number(
 		graph=nx.complement(graph),
-		chromatic_number=minimum
+		k=k
 	)
