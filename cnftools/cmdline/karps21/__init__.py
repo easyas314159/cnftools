@@ -1,7 +1,7 @@
 import argparse
 
-from . import coloring
-from . import clique
+from . import chromaticnumber
+from . import cliquecover
 
 def add_arguments(subparser):
 	parser = subparser.add_parser(
@@ -19,8 +19,8 @@ def add_arguments(subparser):
 		required=True
 	)
 
-	coloring.add_arguments(karpsparser)
-	clique.add_arguments(karpsparser)
+	chromaticnumber.add_arguments(karpsparser)
+	cliquecover.add_arguments(karpsparser)
 
 	return parser
 

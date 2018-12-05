@@ -7,8 +7,8 @@ from . import graphs
 
 def add_arguments(subparser):
 	parser = subparser.add_parser(
-		'clique',
-		description='Generates a CNF expression representing a graph with clique of size k'
+		'chromatic_number',
+		description='Generates a CNF expression representing the k-coloring of a graph'
 	)
 	parser.set_defaults(command=main)
 
@@ -17,7 +17,7 @@ def add_arguments(subparser):
 		'-k',
 		type=int,
 		required=True,
-		help='The target clique count'
+		help='The target chromatic number of the graph'
 	)
 	# TODO: Add support for writing to stdout
 	general.add_argument(
@@ -38,12 +38,11 @@ def add_arguments(subparser):
 	return parser
 
 def main(args):
-	graph, graph_description = args.generator(args)
-	clauses = cnftools.karps21.clique(graph, args.k)
+	clauses = cnftools.karps21.chromatic_number(args.generate(args), args.k)
 
 	comment = '\n'.join([
-		'{k:d}-clique'.format(k=args.k),
-		graph_description
+		'{k:d}-coloring'.format(k=args.k),
+		args.describe(args)
 	])
 
 	with open(args.output, 'w') as file:
