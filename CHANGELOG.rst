@@ -5,6 +5,8 @@ Version x.x.x
 -------------
 
 - Unified command-line utilities into ``cnf``
+- Added ``cnf simplify ...``
+- Added ``cnftools.simplify`` module
 
 Version 0.0.1
 -------------
