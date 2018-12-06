@@ -5,6 +5,9 @@ from itertools import combinations
 import networkx as nx
 
 def chromatic_number(graph, k):
+	# TODO: There is probably a better way to handle this
+	graph = nx.convert_node_labels_to_integers(graph)
+
 	literals = {}
 	for node in graph.nodes():
 		index = k * node + 1
