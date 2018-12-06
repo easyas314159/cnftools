@@ -5,6 +5,7 @@ Version x.x.x
 -------------
 
 - Unified command-line utilities into ``cnf``
+- Added ``cnf stats ...``
 
 Version 0.0.1
 -------------

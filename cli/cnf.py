@@ -3,6 +3,7 @@ import argparse
 from . import threecnf
 from . import karps21
 from . import simplify
+from . import stats
 
 def get_cli_arguments():
 	parser = argparse.ArgumentParser()
@@ -15,6 +16,9 @@ def get_cli_arguments():
 
 	# CNF to 3-CNF conversion
 	threecnf.add_arguments(subparser)
+
+	# CNF statistics
+	stats.add_arguments(subparser)
 
 	# CNF simplification tool
 	simplify.add_arguments(subparser)
