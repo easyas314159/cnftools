@@ -53,3 +53,60 @@ class UnitPropagateTests(unittest.TestCase):
 
 		self.assertSetEqual(cnf_1, set())
 		self.assertSetEqual(make_comparable(cnf_n), make_comparable([[3, 4]]))
+
+class ImpliedUnitsTests(unittest.TestCase):
+	def test_single_units(self):
+		output = cnftools.implied_units([[1]])
+		self.assertSetEqual(make_comparable(output), make_comparable([[1]]))
+
+	def test_dual_units(self):
+		tests = [
+			([[1, 2]], [[1, 2]]),
+			([[-1, 2]], [[-1, 2]]),
+			([[1, -2]], [[1, -2]]),
+			([[-1, -2]], [[-1, -2]]),
+			([[-1, -2], [1, -2]], [[-2]]),
+			([[-1, 2], [1, 2]], [[2]]),
+			([[1, -2], [1, 2]], [[1]]),
+			([[-1, -2], [-1, 2]], [[-1]]),
+		]
+
+		for input, expected in tests:
+			with self.subTest(input):
+				output = cnftools.implied_units(input)
+				self.assertSetEqual(make_comparable(output), make_comparable(expected))
+
+	def test_dual_contradiction(self):
+		input = [
+			[-1, -2],
+			[-1, 2],
+			[1, -2],
+			[1, 2],
+		]
+		output = cnftools.implied_units(input)
+
+		self.assertSetEqual(make_comparable(output), make_comparable([[]]))
+
+	def test_triple_units(self):
+		raise unittest.SkipTest()
+
+	def test_triple_contradiction(self):
+		input = [
+			[-1, -2, -3],
+			[-1, 2, -3],
+			[1, -2, -3],
+			[1, 2, -3],
+			[-1, -2, 3],
+			[-1, 2, 3],
+			[1, -2, 3],
+			[1, 2, 3],
+		]
+		output = cnftools.implied_units(input)
+
+		self.assertSetEqual(make_comparable(output), make_comparable([[]]))
+
+	def test_long_units(self):
+		input = [[1, 2, 3, 4, 5, 6, 7, 8]]
+		output = cnftools.implied_units(input)
+
+		self.assertSetEqual(make_comparable(input), make_comparable(output))
