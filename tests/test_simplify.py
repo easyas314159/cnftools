@@ -2,8 +2,7 @@ import unittest
 
 import cnftools
 
-def make_comparable(clauses):
-	return set((frozenset(c) for c in clauses))
+from .fixtures import make_comparable
 
 class CleanTests(unittest.TestCase):
 	def test_redundant(self):
