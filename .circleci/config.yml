@@ -61,7 +61,10 @@ jobs:
       - make:
           target: test
 
-      # TODO: Store test artifacts
+      - store_artifacts:
+          # TODO: Store lint artifacts
+          # TODO: Store test artifacts
+          path: htmlcov/
 
   deploy:
     parameters:
