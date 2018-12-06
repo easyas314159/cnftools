@@ -30,9 +30,10 @@ def add_arguments(subparser):
 	generators = parser.add_subparsers(
 		dest='generator',
 		title='Graph generators',
-		required=True,
 		help='Graph generators'
 	)
+	# Work around https://bugs.python.org/issue9253
+	generators.required = True
 	graphs.add_graph_arguments(generators)
 
 	return parser

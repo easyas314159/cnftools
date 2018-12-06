@@ -10,9 +10,10 @@ def get_cli_arguments():
 
 	subparser = parser.add_subparsers(
 		title='Sub-commands',
-		description='Available sub-commands',
-		required=True
+		description='Available sub-commands'
 	)
+	# Work around https://bugs.python.org/issue9253
+	subparser.required = True
 
 	# CNF to 3-CNF conversion
 	threecnf.add_arguments(subparser)
@@ -31,3 +32,6 @@ def get_cli_arguments():
 def main():
 	args = get_cli_arguments()
 	exit(args.command(args))
+
+if __name__ == '__main__':
+	main()

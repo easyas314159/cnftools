@@ -15,9 +15,10 @@ def add_arguments(subparser):
 
 	karpsparser = parser.add_subparsers(
 		title='Sub-commands',
-		description='Available sub-commands',
-		required=True
+		description='Available sub-commands'
 	)
+	# Work around https://bugs.python.org/issue9253
+	karpsparser.required = True
 
 	chromaticnumber.add_arguments(karpsparser)
 	cliquecover.add_arguments(karpsparser)

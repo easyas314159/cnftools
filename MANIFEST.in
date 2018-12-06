@@ -1,5 +1,4 @@
 include LICENSE
 include README.rst
-recursive-include cmdline *
 prune docs/build
 recursive-include docs *
