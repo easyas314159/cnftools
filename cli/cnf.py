@@ -1,6 +1,8 @@
 import argparse
 
-from cnftools import cmdline
+from . import threecnf
+from . import karps21
+from . import simplify
 
 def get_cli_arguments():
 	parser = argparse.ArgumentParser()
@@ -12,13 +14,13 @@ def get_cli_arguments():
 	)
 
 	# CNF to 3-CNF conversion
-	cmdline.threecnf.add_arguments(subparser)
+	threecnf.add_arguments(subparser)
 
 	# CNF simplification tool
-	cmdline.simplify.add_arguments(subparser)
+	simplify.add_arguments(subparser)
 
 	# Karp's 21 NP-complete problems
-	cmdline.karps21.add_arguments(subparser)
+	karps21.add_arguments(subparser)
 
 	return parser.parse_args()
 

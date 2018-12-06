@@ -40,7 +40,7 @@ setuptools.setup(
     ],
 	entry_points={
 		'console_scripts': [
-			'cnf = cnftools.cmdline.cnf:main',
+			'cnf = cmdline.cnf:main',
 		],
 	},
 	install_requires=[
