@@ -61,6 +61,12 @@ jobs:
       - make:
           target: test
 
+      - run:
+          name: "check cli install"
+          command: |
+            . venv/bin/activate
+            cnf --help
+
       - store_artifacts:
           # TODO: Store lint artifacts
           # TODO: Store test artifacts
