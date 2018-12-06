@@ -6,7 +6,8 @@ import networkx as nx
 
 def chromatic_number(graph, k):
 	# TODO: There is probably a better way to handle this
-	graph = nx.convert_node_labels_to_integers(graph)
+	# FIXME: convert_node_labels_to_integers does not guarantee ordering
+	graph = nx.convert_node_labels_to_integers(graph, ordering='sorted')
 
 	literals = {}
 	for node in graph.nodes():
