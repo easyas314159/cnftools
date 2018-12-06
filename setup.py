@@ -40,7 +40,7 @@ setuptools.setup(
     ],
 	scripts=[
 		'bin/cnf',
-	],
+	},
 	install_requires=[
 		'networkx>=2.2',
 	],
