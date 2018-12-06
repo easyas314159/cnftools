@@ -8,6 +8,7 @@ Version x.x.x
 - Added ``cnf stats ...``
 - Added ``cnf simplify ...``
 - Added ``cnftools.simplify`` module
+- Expanded ``cnftools.karps21`` module
 
 Version 0.0.1
 -------------
