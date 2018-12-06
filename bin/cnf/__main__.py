@@ -31,3 +31,6 @@ def get_cli_arguments():
 def main():
 	args = get_cli_arguments()
 	exit(args.command(args))
+
+if __name__ == '__main__':
+	main()

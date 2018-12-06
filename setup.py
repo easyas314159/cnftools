@@ -38,10 +38,8 @@ setuptools.setup(
         'Programming Language :: Python :: 3.7',
 		'Topic :: Scientific/Engineering :: Mathematics',
     ],
-	entry_points={
-		'console_scripts': [
-			'cnf = cmdline.cnf:main',
-		],
+	scripts=[
+		'bin/cnf',
 	},
 	install_requires=[
 		'networkx>=2.2',
