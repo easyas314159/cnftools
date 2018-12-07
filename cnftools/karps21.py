@@ -1,5 +1,6 @@
 """
 """
+from collections import defaultdict
 from itertools import combinations
 
 import networkx as nx
@@ -26,3 +27,15 @@ def clique_cover(graph, k):
 		graph=nx.complement(graph),
 		k=k
 	)
+
+def exact_cover(sets):
+	constraints = defaultdict(set)
+
+	for index, s in enumerate(sets, start=1):
+		for element in set(s):
+			constraints[element].add(index)
+
+	for element, contains in constraints.items():
+		yield list(sorted(contains, key=abs))
+
+		yield from [[-u, -v] for u, v in combinations(contains, r=2)]

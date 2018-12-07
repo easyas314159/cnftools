@@ -1,3 +1,4 @@
+import sys
 import unittest
 
 import networkx as nx
@@ -53,6 +54,25 @@ class CliqueCoverTests(unittest.TestCase):
 		nx.add_path(graph, [0, 1, 2])
 
 		output = cnftools.clique_cover(graph, 2)
+
+		self.assertSetEqual(
+			make_comparable(output),
+			make_comparable(expected)
+		)
+
+class ExactCoverTests(unittest.TestCase):
+	def test_simple(self):
+		input = [
+			[1, 2], [2, 3]
+		]
+		expected = [
+			[1],
+			[1, 2],
+			[-1 -2],
+			[2]
+		]
+
+		output = list(cnftools.exact_cover(input))
 
 		self.assertSetEqual(
 			make_comparable(output),
