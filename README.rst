@@ -1,6 +1,9 @@
 cnftools
 ========
 
+.. image:: https://circleci.com/gh/easyas314159/cnftools/tree/master.svg?style=svg
+    :target: https://circleci.com/gh/easyas314159/cnftools/tree/master
+
 A collection of tools for working with and generating Dimacs CNF files.
 
 Installation
