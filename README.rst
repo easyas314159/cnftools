@@ -72,3 +72,4 @@ References
 .. [TSEY1970] Tseitin, Grigori. "On the complexity of derivation in propositional calculus." *Studies in constructive mathematics and mathematical logic* (1968): 115-125.
 .. [COOK1971] Cook, Stephen A. "The complexity of theorem-proving procedures." *Proceedings of the third annual ACM symposium on Theory of computing*. ACM, 1971.
 .. [KARP1972] Karp, Richard M. "Reducibility among combinatorial problems." *Complexity of computer computations*. Springer, Boston, MA, 1972. 85-103.
+.. [ZUCK1996] Zuckerman, David. "On unapproximable versions of NP-complete problems." *SIAM Journal on Computing* 25.6 (1996): 1293-1304.
