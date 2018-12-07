@@ -9,6 +9,8 @@ import setuptools
 
 import cnftools
 
+VERSION = '0.0.2'
+
 def readme():
 	"""print long description"""
 	with open('README.rst') as f:
@@ -16,7 +18,7 @@ def readme():
 
 setuptools.setup(
     name='cnftools',
-	version=cnftools.__version__,
+	version=VERSION,
 	python_requires='>=3.4',
     author='Kevin Loney',
     author_email='kevin.loney@brainsinjars.com',
