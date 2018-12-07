@@ -1,0 +1,6 @@
+[run]
+omit=
+	tests/*
+	cnftools/cli/*
+include=
+	cnftools/*

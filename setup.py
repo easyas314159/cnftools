@@ -7,7 +7,7 @@
 
 import setuptools
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 def readme():
 	"""print long description"""
@@ -23,7 +23,7 @@ setuptools.setup(
     description='A collection of tools for working with and generating Dimacs CNF files.',
 	long_description=readme(),
     url='https://github.com/easyas314159/cnftools',
-	license="MIT",
+	license='MIT',
 	keywords='dimacs cnf sat 3-cnf 3-sat 3cnf 3sat',
     packages=setuptools.find_packages(),
     classifiers=[
@@ -40,15 +40,11 @@ setuptools.setup(
     ],
 	entry_points={
 		'console_scripts': [
-			'to3cnf = cnftools.cmdline.to3cnf:main',
-			'kcoloring = cnftools.cmdline.kcoloring:main',
+			'cnf = cnftools.cli.cnf:main',
 		],
 	},
 	install_requires=[
-
+		'networkx>=2.2',
 	],
-	extras_require={
-		'coloring': ['networkx>=2.2'],
-	},
 	include_package_data=True
 )

@@ -61,7 +61,18 @@ jobs:
       - make:
           target: test
 
-      # TODO: Store test artifacts
+      - run:
+          name: "check cli install"
+          command: |
+            . venv/bin/activate
+            cnf --help
+            cnf 3cnf --help
+            cnf stats --help
+
+      - store_artifacts:
+          # TODO: Store lint artifacts
+          # TODO: Store test artifacts
+          path: htmlcov/
 
   deploy:
     parameters:
