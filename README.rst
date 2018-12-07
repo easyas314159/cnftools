@@ -1,25 +1,26 @@
-==========
-# cnftools
-==========
+========
+cnftools
+========
 
 .. image:: https://circleci.com/gh/easyas314159/cnftools/tree/master.svg?style=svg
     :target: https://circleci.com/gh/easyas314159/cnftools/tree/master
 
 A collection of tools for working with and generating Dimacs CNF files.
 
---------------
-* Installation
---------------
+------------
+Installation
+------------
 
 ::
+
 	pip install cnftools
 
 ``cnftools`` is listed in `PyPI <https://pypi.org/project/cnftools/>`_ and
 can be installed with ``pip``.
 
--------
-* Usage
--------
+-----
+Usage
+-----
 
 ``cnftools`` exposes the ``cnf`` command-line interface for quickly generating
 Dimacs CNF files typically for use with a SAT solver.
@@ -31,6 +32,7 @@ Apply the Tseytin transformation [TSEY1970]_ to a CNF file producing an output
 where all clauses contain 3 or fewer literals.
 
 ::
+
 	cnf 3cnf -i [input.cnf]
 
 simplify
@@ -39,6 +41,7 @@ simplify
 Simply the input CNF file.
 
 ::
+
 	cnf simplify -i [input.cnf] -o [output.cnf]
 
 stats
@@ -48,6 +51,7 @@ Provide details about contents of a CNF file. This includes the number of litera
 the total number of clauses, as well as a histogram of clause lengths.
 
 ::
+
 	cnf stats -i [input.cnf]
 
 karps21
@@ -58,11 +62,12 @@ Karp's 21 NP-Complete problems [KARP1972]_. For more details on this utility
 use the ``-h``/``--help`` option.
 
 ::
+
 	cnf karps21 --help
 
-------------
-* References
-------------
+----------
+References
+----------
 
 .. [TSEY1970] Tseitin, Grigori. "On the complexity of derivation in propositional calculus." *Studies in constructive mathematics and mathematical logic* (1968): 115-125.
 .. [COOK1971] Cook, Stephen A. "The complexity of theorem-proving procedures." *Proceedings of the third annual ACM symposium on Theory of computing*. ACM, 1971.
