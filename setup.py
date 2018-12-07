@@ -7,8 +7,6 @@
 
 import setuptools
 
-import cnftools
-
 VERSION = '0.0.2'
 
 def readme():
