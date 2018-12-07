@@ -12,11 +12,53 @@ A collection of tools for working with and generating Dimacs CNF files.
 --------------
 
 ::
-
 	pip install cnftools
 
 ``cnftools`` is listed in `PyPI <https://pypi.org/project/cnftools/>`_ and
 can be installed with ``pip``.
+
+-------
+* Usage
+-------
+
+``cnftools`` exposes the ``cnf`` command-line interface for quickly generating
+Dimacs CNF files typically for use with a SAT solver.
+
+3cnf
+====
+
+Apply the Tseytin transformation [TSEY1970]_ to a CNF file producing an output
+where all clauses contain 3 or fewer literals.
+
+::
+	cnf 3cnf -i [input.cnf]
+
+simplify
+========
+
+Simply the input CNF file.
+
+::
+	cnf simplify -i [input.cnf] -o [output.cnf]
+
+stats
+=====
+
+Provide details about contents of a CNF file. This includes the number of literals,
+the total number of clauses, as well as a histogram of clause lengths.
+
+::
+	cnf stats -i [input.cnf]
+
+karps21
+=======
+
+This sub-command exposes utilities for generating CNF files based on
+Karp's 21 NP-Complete problems [KARP1972]_. For more details on this utility
+use the ``-h``/``--help`` option.
+
+::
+	cnf karps21 --help
 
 ------------
 * References
