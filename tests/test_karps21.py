@@ -66,10 +66,7 @@ class ExactCoverTests(unittest.TestCase):
 			[1, 2], [2, 3]
 		]
 		expected = [
-			[1],
-			[1, 2],
-			[-1 -2],
-			[2]
+			[1], [1, 2], [-1, -2], [2]
 		]
 
 		output = list(cnftools.exact_cover(input))
