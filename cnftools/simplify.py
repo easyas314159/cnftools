@@ -13,6 +13,18 @@ def clean(clauses):
 
 		yield clause
 
+def deduplicate(clauses):
+	existing = set()
+	for clause in clauses:
+		key = frozenset(clause)
+
+		if key in existing:
+			continue
+
+		existing.add(key)
+
+		yield clause
+
 def unit_propagate(clauses, cascade=True):
 	cnf_1, cnf_n = set(), set()
 	cnf_other = list()
@@ -117,11 +129,13 @@ def subsumed_clauses(clauses):
 def simplify(clauses, imply_units=False, subsume_clauses=False, pure_literals=False):
 	# Remove duplicate clauses
 	cnf_1 = set()
-	cnf_n = set((frozenset(c) for c in clean(clauses)))
+	cnf_n = [c for c in clean(clauses)]
 
 	modified = True
 	while modified:
 		modified = False
+
+		cnf_n = deduplicate(cnf_n)
 
 		if imply_units:
 			cnf_n = implied_units(cnf_n)
