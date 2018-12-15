@@ -24,12 +24,36 @@ def add_arguments(subparser):
 		help='Path to the resulting simplified CNF'
 	)
 
+	parser.add_argument(
+		'--imply-units',
+		default=False,
+		action='store_true',
+		help=''
+	)
+
+	parser.add_argument(
+		'--subsume-clauses',
+		default=False,
+		action='store_true'
+	)
+
+	parser.add_argument(
+		'--pure-literals',
+		default=False,
+		action='store_true'
+	)
+
 	return parser
 
 def main(args):
 	with open(args.input, 'r') as file:
 		_, _, original = cnftools.load(file)
-		transformed = list(cnftools.simplify(original))
+		transformed = list(cnftools.simplify(
+			original,
+			imply_units=args.imply_units,
+			subsume_clauses=args.subsume_clauses,
+			pure_literals=args.pure_literals,
+		))
 
 	with open(args.output, 'w') as file:
 		cnftools.dump(transformed, file)
