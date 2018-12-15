@@ -109,6 +109,11 @@ class DumpTests(unittest.TestCase):
 	def test(self):
 		tests = [
 			(
+				[], None, '''
+				p cnf 0 0
+				'''
+			),
+			(
 				[], [], '''
 				p cnf 0 0
 				'''
