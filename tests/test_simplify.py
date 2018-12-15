@@ -121,6 +121,23 @@ class ImpliedUnitsTests(unittest.TestCase):
 
 		self.assertSetEqual(make_comparable(input), make_comparable(output))
 
+class PureLiteralsTests(unittest.TestCase):
+	def test_pure_literals(self):
+		input = [
+			[1, -2, 3, -4],
+			[1, 2, -3, -4],
+		]
+		expected = [
+			[1], [-4]
+		]
+
+		output = simplify.assign_pure_literals(input)
+
+		self.assertSetEqual(
+			make_comparable(output),
+			make_comparable(input, expected)
+		)
+
 class SubsumedClausesTests(unittest.TestCase):
 	def test_subsumption(self):
 		input = [

@@ -87,6 +87,18 @@ def implied_units(clauses):
 
 	yield from (set([l]) for l in cnf_1)
 
+def assign_pure_literals(clauses):
+	literals = set()
+
+	for clause in clauses:
+		literals.update(clause)
+		yield clause
+
+	for literal in literals:
+		if -literal in literals:
+			continue
+		yield set([literal])
+
 
 
 def simplify(clauses):
