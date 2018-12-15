@@ -99,7 +99,20 @@ def assign_pure_literals(clauses):
 			continue
 		yield set([literal])
 
+def subsumed_clauses(clauses):
+	grouped = defaultdict(set)
 
+	for clause in sorted(clauses, key=len):
+		clause = set(clause)
+		tests = set.union(*[grouped[literal] for literal in clause])
+
+		for subclause in tests:
+			if subclause < clause:
+				break
+		else:
+			for literal in clause:
+				grouped[literal].add(frozenset(clause))
+			yield clause
 
 def simplify(clauses):
 	# Remove duplicate clauses
