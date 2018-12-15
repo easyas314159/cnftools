@@ -48,7 +48,7 @@ def add_arguments(subparser):
 def main(args):
 	with open(args.input, 'r') as file:
 		_, _, original = cnftools.load(file)
-		transformed = list(cnftools.simplify(
+		transformed = list(cnftools.simplify.simplify(
 			original,
 			imply_units=args.imply_units,
 			subsume_clauses=args.subsume_clauses,
