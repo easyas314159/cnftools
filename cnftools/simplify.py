@@ -50,18 +50,14 @@ IMPLICATIONS = {
 def implied_units(clauses):
 	clusters = defaultdict(list)
 	for clause in clauses:
-		if len(clause) == 1:
-			yield clause
-			continue
+		yield clause
 
 		key = frozenset((abs(l) for l in clause))
 		if len(key) != len(clause):
-			yield clause
 			# {KL}: Should this maybe throw an exception here?
 			continue
 
 		if not len(key) in IMPLICATIONS:
-			yield clause
 			continue
 
 		key = tuple(sorted(key))
@@ -79,20 +75,18 @@ def implied_units(clauses):
 			code_cluster |= 1 << code_clause
 
 		implications = IMPLICATIONS[len(key)]
-		if not code_cluster in implications:
-			yield from cluster
-		else:
+		if code_cluster in implications:
 			if implications[code_cluster] is None:
 				yield []
 			else:
 				for literal, value in zip(key, implications[code_cluster]):
 					if value is None:
 						continue
-					cluster.append([literal if value else -literal])
-				cnf_1, cnf_n = unit_propagate(cluster)
+					cnf_1.add(literal if value else -literal)
 
-				yield from (list([l]) for l in cnf_1)
-				yield from cnf_n
+	yield from (set([l]) for l in cnf_1)
+
+
 
 def simplify(clauses):
 	# Remove duplicate clauses
