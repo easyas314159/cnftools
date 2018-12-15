@@ -41,13 +41,13 @@ def add_arguments(subparser):
 def main(args):
 	clauses = cnftools.karps21.clique_cover(args.generate(args), args.k)
 
-	comment = '\n'.join([
+	comment = [
 		'{k:d}-cliquecover'.format(k=args.k),
 		args.describe(args)
-	])
+	]
 
 	with open(args.output, 'w') as file:
-		cnftools.dump(clauses, file, comment=comment)
+		cnftools.dump(clauses, file, comments=comment)
 
 if __name__ == '__main__':
 	main()

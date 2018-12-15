@@ -96,7 +96,7 @@ def load(file):
 		clauses
 	)
 
-def dump(clauses, file, comment=None):
+def dump(clauses, file, comments=None):
 	"""Write a collection of clauses to to file in Dimacs CNF format
 	"""
 
@@ -106,7 +106,7 @@ def dump(clauses, file, comment=None):
 	for clause in clauses:
 		literals.update((abs(l) for l in clause))
 
-	if comment:
+	for comment in comments:
 		for line in comment.splitlines():
 			print('c {comment:s}'.format(comment=line), file=file)
 
