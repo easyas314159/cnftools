@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+# __all__ = ['clean', 'unit_propagate', 'implied_units', 'assign_pure_literals', 'subsumed_clauses']
+
 def clean(clauses):
 	for clause in clauses:
 		# Simplify (L | ... | L) to (L)
@@ -114,14 +116,20 @@ def subsumed_clauses(clauses):
 				grouped[literal].add(frozenset(clause))
 			yield clause
 
-def simplify(clauses):
+def simplify(clauses, imply_units=False, subsume_clauses=False, pure_literals=False):
 	# Remove duplicate clauses
-	cnf_n = set((frozenset(c) for c in clean(clauses)))
 	cnf_1 = set()
+	cnf_n = set((frozenset(c) for c in clean(clauses)))
 
 	modified = True
 	while modified:
 		modified = False
+
+		if imply_units:
+			cnf_n = implied_units(cnf_n)
+
+		if pure_literals:
+			cnf_n = assign_pure_literals(cnf_n)
 
 		cnf_1_new, cnf_n = unit_propagate(cnf_n)
 		cnf_1.update(cnf_1_new)
@@ -129,8 +137,8 @@ def simplify(clauses):
 		if cnf_1_new:
 			modified = True
 
-		# TODO: Solve for implied literals
-		# TODO: Remove subsumed clauses (e.g. (a|b) => (a|b|c))
+	if subsume_clauses:
+		cnf_n = subsumed_clauses(cnf_n)
 
 	yield from (set([l]) for l in cnf_1)
 	yield from cnf_n
