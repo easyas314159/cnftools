@@ -44,9 +44,8 @@ def __load_clauses(iterable):
 
 	for variable in iterable:
 		if variable == 0:
-			if clause:
-				yield clause
-				clause = []
+			yield clause
+			clause = []
 		else:
 			clause.append(variable)
 
@@ -60,7 +59,10 @@ def load(file):
 	lines = __load_lines(file)
 
 	# The first line we get should be a problem definition
-	lineno, line = next(lines)
+	try:
+		lineno, line = next(lines)
+	except StopIteration:
+		raise DimacsException('Unexpected end of file', 0, '')
 	if line[0] != 'p':
 		raise DimacsException('Expected problem definition', lineno, line)
 
@@ -94,7 +96,7 @@ def load(file):
 		clauses
 	)
 
-def dump(clauses, file, comment=None):
+def dump(clauses, file, comments=None):
 	"""Write a collection of clauses to to file in Dimacs CNF format
 	"""
 
@@ -104,7 +106,7 @@ def dump(clauses, file, comment=None):
 	for clause in clauses:
 		literals.update((abs(l) for l in clause))
 
-	if comment:
+	for comment in comments:
 		for line in comment.splitlines():
 			print('c {comment:s}'.format(comment=line), file=file)
 
