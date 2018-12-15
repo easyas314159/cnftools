@@ -61,8 +61,8 @@ def main(args):
 		for cluster in clusters.values():
 			clustergram[len(cluster)] += 1
 
-		for length in sorted(clustergram.keys()):
+		for nclauses in sorted(clustergram.keys()):
 			print('\t{nclauses:d}: {nclusters:d}'.format(
-				nclauses=length,
-				nclusters=clustergram[length]
+				nclauses=nclauses,
+				nclusters=clustergram[nclauses]
 			))
