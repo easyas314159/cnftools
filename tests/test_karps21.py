@@ -69,7 +69,7 @@ class ExactCoverTests(unittest.TestCase):
 			[1], [1, 2], [-1, -2], [2]
 		]
 
-		output = list(cnftools.exact_cover(input))
+		output = list(karps21.exact_cover(input))
 
 		self.assertSetEqual(
 			make_comparable(output),
