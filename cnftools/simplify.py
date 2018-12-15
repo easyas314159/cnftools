@@ -127,9 +127,8 @@ def subsumed_clauses(clauses):
 			yield clause
 
 def simplify(clauses, imply_units=False, subsume_clauses=False, pure_literals=False):
-	# Remove duplicate clauses
 	cnf_1 = set()
-	cnf_n = [c for c in clean(clauses)]
+	cnf_n = clean(clauses)
 
 	modified = True
 	while modified:
