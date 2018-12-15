@@ -144,9 +144,9 @@ def simplify(clauses, imply_units=False, subsume_clauses=False, pure_literals=Fa
 			cnf_n = assign_pure_literals(cnf_n)
 
 		cnf_1_new, cnf_n = unit_propagate(cnf_n)
-		cnf_1.update(cnf_1_new)
 
 		if cnf_1_new:
+			cnf_1.update(cnf_1_new)
 			modified = True
 
 	if subsume_clauses:
