@@ -3,7 +3,7 @@
 all:
 
 dev:
-	pip3 install -r requirements.dev.txt
+	pip3 install --upgrade -r requirements.dev.txt
 	pip3 install -e .
 
 lint:
