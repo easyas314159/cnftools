@@ -48,6 +48,3 @@ def main(args):
 
 	with open(args.output, 'w') as file:
 		cnftools.dump(clauses, file, comments=comment)
-
-if __name__ == '__main__':
-	main()
