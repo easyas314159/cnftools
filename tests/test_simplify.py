@@ -61,10 +61,10 @@ class ImpliedUnitsTests(unittest.TestCase):
 
 	def test_dual_units(self):
 		tests = [
-			([[1, 2]], [[1, 2]]),
-			([[-1, 2]], [[-1, 2]]),
-			([[1, -2]], [[1, -2]]),
-			([[-1, -2]], [[-1, -2]]),
+			([[1, 2]], []),
+			([[-1, 2]], []),
+			([[1, -2]], []),
+			([[-1, -2]], []),
 			([[-1, -2], [1, -2]], [[-2]]),
 			([[-1, 2], [1, 2]], [[2]]),
 			([[1, -2], [1, 2]], [[1]]),
@@ -73,10 +73,11 @@ class ImpliedUnitsTests(unittest.TestCase):
 
 		for input, expected in tests:
 			with self.subTest(input):
-				output = simplify.unit_propagate(simplify.implied_units(input))
+				output = simplify.implied_units(input)
+
 				self.assertSetEqual(
 					make_comparable(output),
-					make_comparable(expected)
+					make_comparable(input, expected)
 				)
 
 	def test_dual_contradiction(self):
@@ -86,11 +87,11 @@ class ImpliedUnitsTests(unittest.TestCase):
 			[1, -2],
 			[1, 2],
 		]
-		output = simplify.unit_propagate(simplify.implied_units(input))
 
+		output = simplify.implied_units(input)
 		self.assertSetEqual(
 			make_comparable(output),
-			make_comparable([[]])
+			make_comparable(input, [[]])
 		)
 
 	def test_triple_units(self):
@@ -107,11 +108,11 @@ class ImpliedUnitsTests(unittest.TestCase):
 			[1, -2, 3],
 			[1, 2, 3],
 		]
-		output = simplify.unit_propagate(simplify.implied_units(input))
+		output = simplify.implied_units(input)
 
 		self.assertSetEqual(
 			make_comparable(output),
-			make_comparable([[]])
+			make_comparable(input, [[]])
 		)
 
 	def test_long_units(self):
