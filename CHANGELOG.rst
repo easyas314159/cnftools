@@ -1,14 +1,17 @@
 Change Log
 ==========
 
-Version x.x.x
+Version 0.0.2
 -------------
 
 - Unified command-line utilities into ``cnf``
-- Added ``cnf stats ...``
-- Added ``cnf simplify ...``
+	- Added ``cnf stats ...``
+	- Added ``cnf simplify ...``
+	- Expanded ``cnf karps21``
 - Added ``cnftools.simplify`` module
 - Expanded ``cnftools.karps21`` module
+- Started improving documentation
+- Added unit tests
 
 Version 0.0.1
 -------------
