@@ -1,3 +1,4 @@
+import re
 import unittest
 import functools
 
@@ -102,4 +103,49 @@ class LoadTests(unittest.TestCase):
 				self.assertSetEqual(
 					make_comparable(clauses),
 					make_comparable(expected)
+				)
+
+class DumpTests(unittest.TestCase):
+	def test(self):
+		tests = [
+			(
+				[], [], '''
+				p cnf 0 0
+				'''
+			),
+			(
+				[[1, 2]], [], '''
+				p cnf 2 1
+				1 2 0
+				'''
+			),
+			(
+				[[]], [], '''
+				p cnf 0 1
+				0
+				'''
+			),
+			(
+				[], ['Comment'], '''
+				c Comment
+				p cnf 0 0
+				'''
+			),
+			(
+				[], ['Comment A\nComment B'], '''
+				c Comment A
+				c Comment B
+				p cnf 0 0
+				'''
+			),
+		]
+
+		for clauses, comment, expected in tests:
+			with self.subTest(expected):
+				cnf = StringIO()
+				io.dump(clauses, cnf, comments=comment)
+
+				self.assertEqual(
+					re.sub('\s*', '', cnf.getvalue()),
+					re.sub('\s*', '', expected)
 				)
