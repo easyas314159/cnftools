@@ -1,11 +1,6 @@
-from .karps21 import *
-from .simplify import clean, simplify, unit_propagate, implied_units
+from . import karps21
+from . import simplify
 from .tseytin import to_3cnf
 from .io import DimacsException, load, dump
 
-__all__ = [
-	'DimacsException', 'load', 'dump',
-	'to_3cnf',
-	'clean', 'simplify', 'unit_propagate', 'implied_units',
-	'chromatic_number', 'clique_cover', 'exact_cover'
-]
+__all__ = ['DimacsException', 'load', 'dump', 'to_3cnf', 'karps21', 'simplify']

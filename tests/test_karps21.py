@@ -3,7 +3,7 @@ import unittest
 
 import networkx as nx
 
-import cnftools
+from cnftools import karps21
 
 from .fixtures import make_comparable
 
@@ -18,7 +18,7 @@ class ChromaticNumberTests(unittest.TestCase):
 		graph = nx.Graph()
 		nx.add_path(graph, [0, 1, 2])
 
-		output = cnftools.chromatic_number(graph, 2)
+		output = karps21.chromatic_number(graph, 2)
 
 		self.assertSetEqual(
 			make_comparable(output),
@@ -35,7 +35,7 @@ class ChromaticNumberTests(unittest.TestCase):
 		graph = nx.Graph()
 		nx.add_path(graph, ['A', 'B', 'C'])
 
-		output = cnftools.chromatic_number(graph, 2)
+		output = karps21.chromatic_number(graph, 2)
 
 		self.assertSetEqual(
 			make_comparable(output),
@@ -53,7 +53,7 @@ class CliqueCoverTests(unittest.TestCase):
 		graph = nx.Graph()
 		nx.add_path(graph, [0, 1, 2])
 
-		output = cnftools.clique_cover(graph, 2)
+		output = karps21.clique_cover(graph, 2)
 
 		self.assertSetEqual(
 			make_comparable(output),

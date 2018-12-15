@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+# __all__ = ['clean', 'unit_propagate', 'implied_units', 'assign_pure_literals', 'subsumed_clauses']
+
 def clean(clauses):
 	for clause in clauses:
 		# Simplify (L | ... | L) to (L)
@@ -50,24 +52,21 @@ IMPLICATIONS = {
 def implied_units(clauses):
 	clusters = defaultdict(list)
 	for clause in clauses:
-		if len(clause) == 1:
-			yield clause
-			continue
+		yield clause
 
 		key = frozenset((abs(l) for l in clause))
 		if len(key) != len(clause):
-			yield clause
 			# {KL}: Should this maybe throw an exception here?
 			continue
 
 		if not len(key) in IMPLICATIONS:
-			yield clause
 			continue
 
 		key = tuple(sorted(key))
 		clusters[key].append(list(sorted(clause, key=abs)))
 
 	# TODO: There is significant room for improved record keeping here
+	cnf_1 = set()
 	temp = defaultdict(int)
 	for key, cluster in clusters.items():
 		code_cluster = 0
@@ -79,29 +78,58 @@ def implied_units(clauses):
 			code_cluster |= 1 << code_clause
 
 		implications = IMPLICATIONS[len(key)]
-		if not code_cluster in implications:
-			yield from cluster
-		else:
+		if code_cluster in implications:
 			if implications[code_cluster] is None:
 				yield []
 			else:
 				for literal, value in zip(key, implications[code_cluster]):
 					if value is None:
 						continue
-					cluster.append([literal if value else -literal])
-				cnf_1, cnf_n = unit_propagate(cluster)
+					cnf_1.add(literal if value else -literal)
 
-				yield from (list([l]) for l in cnf_1)
-				yield from cnf_n
+	yield from (set([l]) for l in cnf_1)
 
-def simplify(clauses):
+def assign_pure_literals(clauses):
+	literals = set()
+
+	for clause in clauses:
+		literals.update(clause)
+		yield clause
+
+	for literal in literals:
+		if -literal in literals:
+			continue
+		yield set([literal])
+
+def subsumed_clauses(clauses):
+	grouped = defaultdict(set)
+
+	for clause in sorted(clauses, key=len):
+		clause = set(clause)
+		tests = set.union(*[grouped[literal] for literal in clause])
+
+		for subclause in tests:
+			if subclause < clause:
+				break
+		else:
+			for literal in clause:
+				grouped[literal].add(frozenset(clause))
+			yield clause
+
+def simplify(clauses, imply_units=False, subsume_clauses=False, pure_literals=False):
 	# Remove duplicate clauses
-	cnf_n = set((frozenset(c) for c in clean(clauses)))
 	cnf_1 = set()
+	cnf_n = set((frozenset(c) for c in clean(clauses)))
 
 	modified = True
 	while modified:
 		modified = False
+
+		if imply_units:
+			cnf_n = implied_units(cnf_n)
+
+		if pure_literals:
+			cnf_n = assign_pure_literals(cnf_n)
 
 		cnf_1_new, cnf_n = unit_propagate(cnf_n)
 		cnf_1.update(cnf_1_new)
@@ -109,8 +137,8 @@ def simplify(clauses):
 		if cnf_1_new:
 			modified = True
 
-		# TODO: Solve for implied literals
-		# TODO: Remove subsumed clauses (e.g. (a|b) => (a|b|c))
+	if subsume_clauses:
+		cnf_n = subsumed_clauses(cnf_n)
 
 	yield from (set([l]) for l in cnf_1)
 	yield from cnf_n
