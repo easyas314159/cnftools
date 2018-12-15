@@ -44,9 +44,8 @@ def __load_clauses(iterable):
 
 	for variable in iterable:
 		if variable == 0:
-			if clause:
-				yield clause
-				clause = []
+			yield clause
+			clause = []
 		else:
 			clause.append(variable)
 
