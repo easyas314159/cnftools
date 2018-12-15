@@ -131,9 +131,10 @@ def dump(clauses, file, comments=None):
 	for clause in clauses:
 		literals.update((abs(l) for l in clause))
 
-	for comment in comments:
-		for line in comment.splitlines():
-			print('c {comment:s}'.format(comment=line), file=file)
+	if comments:
+		for comment in comments:
+			for line in comment.splitlines():
+				print('c {comment:s}'.format(comment=line), file=file)
 
 	print(
 		'p cnf {literals:d} {clauses:d}'.format(
