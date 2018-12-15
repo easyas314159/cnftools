@@ -25,8 +25,9 @@ commands:
 
       - save_cache:
           paths:
+            - ~/.cache
             - ./venv
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
+          key: v1-dependencies-<< parameters.version >>-{{ .Branch }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-{{ checksum "requirements.dev.txt" }}
 
   make:
     parameters:
