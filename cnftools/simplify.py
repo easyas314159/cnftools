@@ -1,8 +1,20 @@
+"""Utilities for preprocessing and removing extraneous clauses
+"""
+
 from collections import defaultdict
 
-# __all__ = ['clean', 'unit_propagate', 'implied_units', 'assign_pure_literals', 'subsumed_clauses']
-
 def clean(clauses):
+	"""Perform a simple clause cleaning. This function performs two operations:
+
+	1. Clauses of the form ``(L | ... | L | ...)`` a simplified to (L | ...)
+	2. Clauses containing ``(L | -L)`` are removed
+
+	Args:
+		clauses: A collection of clauses to be cleaned
+
+	Yields: Clauses with literals collapsed and clauses containing (L | -L) removed
+	"""
+
 	for clause in clauses:
 		# Simplify (L | ... | L) to (L)
 		clause = set(clause)
@@ -14,6 +26,15 @@ def clean(clauses):
 		yield clause
 
 def deduplicate(clauses):
+	"""Remove duplicate clauses from a collection of clauses.
+
+	Args:
+		clauses (:obj:`iter` of :obj:`iter` of :obj:`int`): A collection of
+			clauses to deduplicate.
+
+	Yields: Clauses with duplicates removed.
+	"""
+
 	existing = set()
 	for clause in clauses:
 		key = frozenset(clause)
@@ -26,6 +47,20 @@ def deduplicate(clauses):
 		yield clause
 
 def unit_propagate(clauses, cascade=True):
+	"""Divide a collection of clauses into a set of satisfied literals and a
+	new collection of clauses with satisfied literals removed.
+
+	Args:
+		clauses (:obj:`iter` of :obj:`iter` of :obj:`int`): A collection of clauses.
+		cascade (:obj:`bool`, optional): Whether to recursively apply ``unit_propagate``.
+			Defaults to `True`.
+
+	Returns:
+		:obj:`tuple` - The first element is a :obj:`set` of :obj:`int` containing
+			satisfied literals. The second element is a collection of clauses with
+			all satisfied literals removed.
+	"""
+
 	cnf_1, cnf_n = set(), set()
 	cnf_other = list()
 
@@ -62,6 +97,22 @@ IMPLICATIONS = {
 } # pylint: disable=line-too-long
 
 def implied_units(clauses):
+	"""Finds groups of the same literals with different combinations of polarities
+	and looks for cases where a literal must have a specific value in order for
+	all the clauses within the group to be satisfied.
+
+	Example:
+		The only possible way to satisfy ``(-a | -b) & (-a | b) & (a | b)`` is
+		to assign ``-a`` and ``b``
+
+	Args:
+		clauses (:obj:`iter` of :obj:`iter` of :obj:`int`): A collection of
+			clauses in which to search for implied literals.
+
+	Yields: Clauses with additional clauses for any assigned implied literals
+		appended to the end.
+	"""
+
 	clusters = defaultdict(list)
 	for clause in clauses:
 		yield clause
@@ -100,6 +151,17 @@ def implied_units(clauses):
 	yield from (set([l]) for l in cnf_1)
 
 def assign_pure_literals(clauses):
+	"""Find literals that occur with only one polarity in the collection of clauses
+	and assign them such that all clauses containing that literal evaluate to True.
+
+	Args:
+		clauses (:obj:`iter` of :obj:`iter` of :obj:`int`): A collection of
+			clauses to search and asign pure literals.
+
+	Yields: Clauses with additional clauses for any assigned pure literals appended
+		to the end.
+	"""
+
 	literals = set()
 
 	for clause in clauses:
@@ -112,6 +174,18 @@ def assign_pure_literals(clauses):
 		yield set([literal])
 
 def subsumed_clauses(clauses):
+	"""Filter a collection of clauses and remove any clause that is subsumed.
+
+	Example:
+		``(a | b) & (a | b | c)`` reduces to ``(a | b)``
+
+	Args:
+		clauses (:obj:`iter` of :obj:`iter` of :obj:`int`): A collection of
+			clauses to search and asign pure literals.
+
+	Yields: Clauses with subsumed clauses removed.
+	"""
+
 	grouped = defaultdict(set)
 
 	for clause in sorted(clauses, key=len):
@@ -127,6 +201,9 @@ def subsumed_clauses(clauses):
 			yield clause
 
 def simplify(clauses, imply_units=False, subsume_clauses=False, pure_literals=False):
+	"""
+	"""
+
 	cnf_1 = set()
 	cnf_n = clean(clauses)
 
