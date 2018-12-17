@@ -5,6 +5,7 @@ Version 0.0.x
 -------------
 
 - Added ``cnftools.transform`` module
+- Added ``cnf pack ...``
 
 Version 0.0.2
 -------------
