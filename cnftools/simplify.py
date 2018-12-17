@@ -10,7 +10,8 @@ def clean(clauses):
 	2. Clauses containing ``(L | -L)`` are removed
 
 	Args:
-		clauses: A collection of clauses to be cleaned
+		clauses (:obj:`iter` of :obj:`iter` of :obj:`int`): A collection of
+			clauses to be cleaned
 
 	Yields: Clauses with literals collapsed and clauses containing (L | -L) removed
 	"""
