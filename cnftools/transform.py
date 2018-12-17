@@ -28,7 +28,21 @@ def pack(clauses):
 	return {old:new for new, old in enumerate(sorted(literals), start=1)}
 
 def remap(clauses, mapping):
-	"""
+	"""Remap the literals in the list of clauses so they map directly to the
+	range 1..N. The literals will be remapped to the range 1..N in ascending
+	numerical order.
+
+	Args:
+		clauses (:obj:`iter` of :obj:`iter` of :obj:`int`): A collection of clauses
+			to remap
+		mapping (:obj:`dict` of :obj:`int`): A mapping of old to new values
+
+	Raises:
+		ValueError: If 0 is a literal in the supplied clauses
+		KeyError: If any literal in the provided clauses does not exist in `mapping`
+
+	Yields: Cluases with thier literals remapped using the values supplied
+		in :arg:`mapping`.
 	"""
 
 	for clause in clauses:
