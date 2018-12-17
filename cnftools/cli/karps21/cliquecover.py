@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-import argparse
-
 import cnftools
 
 from . import graphs

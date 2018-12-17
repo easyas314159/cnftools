@@ -1,5 +1,3 @@
-import argparse
-
 from . import chromaticnumber
 from . import cliquecover
 
