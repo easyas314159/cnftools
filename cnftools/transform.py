@@ -4,13 +4,18 @@
 from itertools import chain
 
 def pack(clauses):
-	"""Remap the literals in the list of clauses so they map directly to the range 1..N
+	"""Remap the literals in the list of clauses so they map directly to the
+	range 1..N. The literals will be remapped to the range 1..N in ascending
+	numerical order.
 
 	Args:
+		clauses (:obj:`iter` of :obj:`iter` of :obj:`int`): A collection of clauses
+			to remap
 
-	Returns: :obj:`tuple` - The first element is a :obj:`dict` of :obj:`int` containing
-		a mapping of original to remapped literals. The second element is a :obj:`iter`
-		of clauses with remapped literals.
+	Raises:
+		ValueError: If 0 is a literal in the supplied clauses
+
+	Returns: :obj:`dict` of :obj:`int` containing a mapping of original to remapped literals.
 	"""
 
 	clauses = list(clauses)
@@ -20,11 +25,7 @@ def pack(clauses):
 	if 0 in literals:
 		raise ValueError('0 is not a valid literal')
 
-	mapping = {}
-	for new, old in enumerate(sorted(literals), start=1):
-		mapping[old] = new
-
-	return (mapping, remap(clauses, mapping))
+	return {old:new for new, old in enumerate(sorted(literals), start=1)}
 
 def remap(clauses, mapping):
 	"""

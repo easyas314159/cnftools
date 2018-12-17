@@ -27,16 +27,16 @@ def add_arguments(subparser):
 def main(args):
 	with open(args.input, 'r') as file:
 		_, _, original = cnftools.load(file)
-		remapped, transformed = cnftools.transform.pack(original)
-		transformed = list(transformed)
+		original = list(original)
+
+		mapping = cnftools.transform.pack(original)
+		transformed = list(cnftools.transform.remap(original, mapping))
 
 	comments = [
 		'Repacked literals from {0:s}'.format(args.input)
 	]
-	for literal in sorted(remapped.keys()):
-		if literal < 0:
-			continue
-		comments.append('{0:d} -> {1:d}'.format(literal, remapped[literal]))
+	for literal in sorted(mapping.keys()):
+		comments.append('{0:d} -> {1:d}'.format(literal, mapping[literal]))
 
 	with open(args.output, 'w') as file:
 		cnftools.dump(transformed, file, comments=comments)

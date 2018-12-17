@@ -8,17 +8,11 @@ from cnftools import transform
 class PackTests(unittest.TestCase):
 	def test_success(self):
 		input = [[2, 3], [-2, 5]]
-		expected_output = [[1, 2], [-1, 3]]
 		expected_remapped = {
 			2: 1, 3: 2, 5: 3
 		}
 
-		remapped, output = transform.pack(input)
-
-		self.assertSetEqual(
-			make_comparable(output),
-			make_comparable(expected_output)
-		)
+		remapped = transform.pack(input)
 
 		self.assertDictEqual(
 			remapped,
