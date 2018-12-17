@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.0.x
+-------------
+
+- Added ``cnftools.transform`` module
+
 Version 0.0.2
 -------------
 

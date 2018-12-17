@@ -3,7 +3,8 @@
 
 from . import karps21
 from . import simplify
+from . import transform
 from .tseytin import to_3cnf
 from .io import DimacsException, load, dump
 
-__all__ = ['DimacsException', 'load', 'dump', 'to_3cnf', 'karps21', 'simplify']
+__all__ = ['DimacsException', 'load', 'dump', 'to_3cnf', 'karps21', 'simplify', 'transform']
