@@ -2,7 +2,8 @@ import networkx as nx
 
 def add_graph_arguments(subparser):
 	generators = [
-		atlas, balanced_tree, adjlist
+		atlas, balanced_tree,
+		adjlist, gexf, graphml, yaml,
 	]
 
 	for generator in generators:
@@ -69,7 +70,10 @@ def balanced_tree(subparser):
 
 	return parser
 
+
+
 # NetworkX graph file loaders
+# TODO: Can these loader be parameterized?
 
 def adjlist(subparser):
 	"""Initialize command-line arguments and generators for loading adjaceny lists
@@ -91,6 +95,81 @@ def adjlist(subparser):
 		return nx.read_adjlist(args.input)
 	def describe(args):
 		return 'Adjacency list loaded from {input:s}'.format(input=args.input)
+
+	parser.set_defaults(generate=generate, describe=describe)
+
+	return parser
+
+def gexf(subparser):
+	"""Initialize command-line arguments and generators for loading Graph Exchange XML Format.
+	"""
+	parser = subparser.add_parser(
+		'gexf',
+		description="""
+		Read a Graph Exchange XML Format file.
+		"""
+	)
+	parser.add_argument(
+		'-i', '--input',
+		type=str,
+		required=True,
+		help='Path to GEXF file.'
+	)
+
+	def generate(args):
+		return nx.read_gexf(args.input)
+	def describe(args):
+		return 'Graph Exchange XML Format loaded from {input:s}'.format(input=args.input)
+
+	parser.set_defaults(generate=generate, describe=describe)
+
+	return parser
+
+def graphml(subparser):
+	"""Initialize command-line arguments and generators for loading GraphML.
+	"""
+	parser = subparser.add_parser(
+		'graphml',
+		description="""
+		Read a GraphML file.
+		"""
+	)
+	parser.add_argument(
+		'-i', '--input',
+		type=str,
+		required=True,
+		help='Path to GraphML file.'
+	)
+
+	def generate(args):
+		return nx.read_graphml(args.input)
+	def describe(args):
+		return 'GraphML loaded from {input:s}'.format(input=args.input)
+
+	parser.set_defaults(generate=generate, describe=describe)
+
+	return parser
+
+def yaml(subparser):
+	"""Initialize command-line arguments and generators for loading YAML.
+	"""
+	parser = subparser.add_parser(
+		'yaml',
+		description="""
+		Read a YAML file.
+		"""
+	)
+	parser.add_argument(
+		'-i', '--input',
+		type=str,
+		required=True,
+		help='Path to YAML file.'
+	)
+
+	def generate(args):
+		return nx.read_yaml(args.input)
+	def describe(args):
+		return 'YAML loaded from {input:s}'.format(input=args.input)
 
 	parser.set_defaults(generate=generate, describe=describe)
 
