@@ -4,6 +4,7 @@ from . import threecnf
 from . import karps21
 from . import simplify
 from . import stats
+from . import pack
 
 def get_cli_arguments():
 	parser = argparse.ArgumentParser()
@@ -26,6 +27,9 @@ def get_cli_arguments():
 
 	# Karp's 21 NP-complete problems
 	karps21.add_arguments(subparser)
+
+	# Literal packing utility
+	pack.add_arguments(subparser)
 
 	return parser.parse_args()
 

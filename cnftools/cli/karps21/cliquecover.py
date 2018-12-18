@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-import argparse
-
 import cnftools
 
 from . import graphs
@@ -48,6 +45,3 @@ def main(args):
 
 	with open(args.output, 'w') as file:
 		cnftools.dump(clauses, file, comments=comment)
-
-if __name__ == '__main__':
-	main()

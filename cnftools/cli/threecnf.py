@@ -1,5 +1,3 @@
-import argparse
-
 import cnftools
 
 def add_arguments(subparser):

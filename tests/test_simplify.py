@@ -24,6 +24,18 @@ class CleanTests(unittest.TestCase):
 
 		self.assertSetEqual(cleaned, make_comparable([[1, 2]]))
 
+class DeduplicateTests(unittest.TestCase):
+	def test(self):
+		input = [[1, 2], [1, 2]]
+		expected = [[1, 2]]
+
+		output = simplify.deduplicate(input)
+
+		self.assertSetEqual(
+			make_comparable(output),
+			make_comparable(expected)
+		)
+
 class UnitPropagateTests(unittest.TestCase):
 	def test_single(self):
 		clauses = [[-1], [2]]

@@ -1,14 +1,19 @@
-"""Functions to loading and saving Dimacs CNF files.
+"""Functions for loading and saving Dimacs CNF files.
 """
 import re
 
 __all__ = ['DimacsException', 'dump', 'load']
 
 class DimacsException(Exception):
-	"""
+	"""Represents a failure to parse a Dimacs CNF file
 	"""
 	def __init__(self, message, lineno, line):
-		"""
+		"""Create a new Dimacs parsing exception
+
+		Args:
+			message: Mesage describing the parsing exception
+			lineno: The line number in the Dimacs CNF file that caused the exception
+			line: The line from the Dimacs CNF file that caused the exception
 		"""
 
 		super(DimacsException, self).__init__('{message:s}[{lineno:d}]: {line:s}'.format(
@@ -19,7 +24,11 @@ class DimacsException(Exception):
 		self.line = line
 
 def __load_lines(file):
-	"""Load lines from a Dimacs CNF file while striping out comments and empty lines"""
+	"""Load lines from a Dimacs CNF file while striping out comments and empty lines.
+
+	Args:
+		file: A file-like object
+	"""
 	for lineno, line in enumerate(file, start=1):
 		line = line.strip()
 		if line == '' or line[0] == 'c':
@@ -29,7 +38,10 @@ def __load_lines(file):
 LITERAL_TEST = re.compile('-?[1-9][0-9]*')
 
 def __load_literals(iterable):
-	"""Create a stream of literals from lines
+	"""Create a stream of literals from lines.
+
+	Args:
+		iterable: A generator of lines with corresponding line numbers
 	"""
 	for lineno, line in iterable:
 		for literal in line.split():
@@ -39,6 +51,9 @@ def __load_literals(iterable):
 
 def __load_clauses(iterable):
 	"""Given an iterable of literals construct clauses spliting on 0
+
+	Args:
+		iterable: A generator of literal ids
 	"""
 	clause = []
 
@@ -54,6 +69,9 @@ def __load_clauses(iterable):
 
 def load(file):
 	"""Load a Dimacs CNF file
+
+	Args:
+		file: A file like object whose contents are in Dimacs CNF format
 	"""
 
 	lines = __load_lines(file)
@@ -98,6 +116,13 @@ def load(file):
 
 def dump(clauses, file, comments=None):
 	"""Write a collection of clauses to to file in Dimacs CNF format
+
+	Args:
+		clauses: An iterable of collections of literals
+		file: An open file like object
+		comments: An iterable of strings to prepend to the output file. If any
+			of the strings contain new lines they will automatically be split
+			across multiple comment lines.
 	"""
 
 	literals = set()
@@ -106,11 +131,23 @@ def dump(clauses, file, comments=None):
 	for clause in clauses:
 		literals.update((abs(l) for l in clause))
 
-	for comment in comments:
-		for line in comment.splitlines():
-			print('c {comment:s}'.format(comment=line), file=file)
+	if comments:
+		for comment in comments:
+			for line in comment.splitlines():
+				print('c {comment:s}'.format(comment=line), file=file)
 
-	print('p cnf {literals:d} {clauses:d}'.format(literals=len(literals), clauses=len(clauses)), file=file)
+	print(
+		'p cnf {literals:d} {clauses:d}'.format(
+			literals=len(literals),
+			clauses=len(clauses)
+		),
+		file=file
+	)
 
 	for clause in clauses:
-		print('{clause} 0'.format(clause=' '.join([str(l) for l in clause])), file=file)
+		print(
+			'{clause} 0'.format(
+				clause=' '.join([str(l) for l in clause])
+			),
+			file=file
+		)
