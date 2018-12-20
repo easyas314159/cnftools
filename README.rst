@@ -44,6 +44,15 @@ Simply the input CNF file.
 
 	cnf simplify -i [input.cnf] -o [output.cnf]
 
+shuffle
+========
+
+Randomly reorder clauses, literals within clauses, and variable names.
+
+::
+
+	cnf shuffle -i [input.cnf] -o [output.cnf] [-l/--literals] [-c/--clauses] [-v/--variables]
+
 stats
 =====
 
