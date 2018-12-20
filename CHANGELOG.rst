@@ -6,6 +6,7 @@ Version 0.0.x
 
 - Added ``cnftools.transform`` module
 - Added ``cnf pack ...``
+- Added ``cnf shuffle ...``
 
 Version 0.0.2
 -------------
