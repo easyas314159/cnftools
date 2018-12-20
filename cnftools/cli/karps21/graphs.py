@@ -2,7 +2,7 @@ import networkx as nx
 
 def add_graph_arguments(subparser):
 	generators = [
-		atlas, balanced_tree,
+		atlas, balanced_tree, complete,
 		adjlist, gexf, graphml, yaml,
 	]
 
@@ -70,7 +70,30 @@ def balanced_tree(subparser):
 
 	return parser
 
+def complete(subparser):
+	"""Initialize command-line arguments and generators for complete graphs
+	"""
 
+	parser = subparser.add_parser(
+		'complete',
+		description='A complete graph with n nodes.'
+	)
+
+	parser.add_argument(
+		'-n', '--nodes',
+		type=int,
+		required=True,
+		help='Number of nodes in the graph.'
+	)
+
+	def generate(args):
+		return nx.complete_graph(args.nodes)
+	def describe(args):
+		return 'Complete graph with {n:d} nodes'.format(n=args.nodes)
+
+	parser.set_defaults(generate=generate, describe=describe)
+
+	return parser
 
 # NetworkX graph file loaders
 # TODO: Can these loader be parameterized?
