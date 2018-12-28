@@ -20,7 +20,8 @@ def clean(clauses):
 		# Simplify (L | ... | L) to (L)
 		clause = set(clause)
 
-		# If clause contains (L | -L) then it is always true so we can skip it
+		# If clause contains (L | -L) then it is always true by
+		# tautology and disjunctive addition so we can skip it
 		if len(clause) != len(set((abs(l) for l in clause))):
 			continue
 
