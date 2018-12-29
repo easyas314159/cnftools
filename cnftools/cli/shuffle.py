@@ -1,6 +1,9 @@
+import sys
 import random
 
 import cnftools
+
+from . import cnfio
 
 def add_arguments(subparser):
 	parser = subparser.add_parser(
@@ -9,18 +12,16 @@ def add_arguments(subparser):
 	)
 	parser.set_defaults(command=main)
 
-	# TODO: Refactor this to allow reading from stdin
-	# TODO: Refactor this to allow writing to stdout
 	parser.add_argument(
 		'-i', '--input',
 		type=str,
-		required=True,
+		default=None,
 		help='Path to the Dimacs CNF file to shuffle'
 	)
 	parser.add_argument(
 		'-o', '--output',
 		type=str,
-		required=True,
+		default=None,
 		help='Path to the resulting shuffled CNF'
 	)
 
@@ -58,12 +59,12 @@ def main(args):
 	if not args.seed is None:
 		random.seed(args.seed)
 
-	with open(args.input, 'r') as file:
+	with cnfio.open(args.input, sys.stdin, 'r') as file:
 		_, _, original = cnftools.load(file)
 		clauses = list(original)
 
 	comments = [
-		'Shuffling of {0:s}'.format(args.input)
+		'Shuffled'
 	]
 
 	if args.clauses:
@@ -88,5 +89,5 @@ def main(args):
 		for literal in sorted(mapping.keys()):
 			comments.append('{0:d} -> {1:d}'.format(literal, mapping[literal]))
 
-	with open(args.output, 'w') as file:
+	with cnfio.open(args.output, sys.stdout, 'w') as file:
 		cnftools.dump(clauses, file, comments=comments)

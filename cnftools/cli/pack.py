@@ -1,4 +1,7 @@
+import sys
 import cnftools
+
+from . import cnfio
 
 def add_arguments(subparser):
 	parser = subparser.add_parser(
@@ -7,25 +10,23 @@ def add_arguments(subparser):
 	)
 	parser.set_defaults(command=main)
 
-	# TODO: Refactor this to allow reading from stdin
-	# TODO: Refactor this to allow writing to stdout
 	parser.add_argument(
 		'-i', '--input',
 		type=str,
-		required=True,
-		help='Path to the Dimacs CNF file to pack'
+		default=None,
+		help='Path to the Dimacs CNF file to pack. Defaults to stdin'
 	)
 	parser.add_argument(
 		'-o', '--output',
 		type=str,
-		required=True,
+		default=None,
 		help='Path to the resulting packed CNF'
 	)
 
 	return parser
 
 def main(args):
-	with open(args.input, 'r') as file:
+	with cnfio.open(args.input, sys.stdin, 'r') as file:
 		_, _, original = cnftools.load(file)
 		original = list(original)
 
@@ -33,10 +34,10 @@ def main(args):
 		transformed = list(cnftools.transform.remap(original, mapping))
 
 	comments = [
-		'Repacked literals from {0:s}'.format(args.input)
+		'Repacked literals'
 	]
 	for literal in sorted(mapping.keys()):
 		comments.append('{0:d} -> {1:d}'.format(literal, mapping[literal]))
 
-	with open(args.output, 'w') as file:
+	with cnfio.open(args.output, sys.stdout, 'w') as file:
 		cnftools.dump(transformed, file, comments=comments)

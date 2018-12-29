@@ -1,8 +1,11 @@
+import sys
 import itertools
 
 from collections import defaultdict
 
 import cnftools
+
+from . import cnfio
 
 def add_arguments(subparser):
 	parser = subparser.add_parser(
@@ -11,24 +14,21 @@ def add_arguments(subparser):
 	)
 	parser.set_defaults(command=main)
 
-	# TODO: Refactor this to allow reading from stdin
 	parser.add_argument(
 		'-i', '--input',
 		type=str,
-		required=True,
+		default=None,
 		help='Path to the Dimacs CNF file to analyze'
 	)
 
 	return parser
 
 def main(args):
-	with open(args.input, 'r') as file:
+	with cnfio.open(args.input, sys.stdin, 'r') as file:
 		nliterals, nclauses, clauses = cnftools.load(file)
 		clauses = list(clauses)
 
 	literals = set((abs(l) for l in itertools.chain(*clauses)))
-
-	print('Stats for {filename:s}'.format(filename=args.input))
 
 	print('Literals: counted={counted:d} expected={expected:d}'.format(
 		counted=len(literals),

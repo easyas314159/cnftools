@@ -1,4 +1,8 @@
+import sys
+
 import cnftools
+
+from . import cnfio
 
 def add_arguments(subparser):
 	parser = subparser.add_parser(
@@ -7,18 +11,16 @@ def add_arguments(subparser):
 	)
 	parser.set_defaults(command=main)
 
-	# TODO: Refactor this to allow reading from stdin
-	# TODO: Refactor this to allow writing to stdout
 	parser.add_argument(
 		'-i', '--input',
 		type=str,
-		required=True,
+		default=None,
 		help='Path to the Dimacs CNF file to simplify'
 	)
 	parser.add_argument(
 		'-o', '--output',
 		type=str,
-		required=True,
+		default=None,
 		help='Path to the resulting simplified CNF'
 	)
 
@@ -44,7 +46,7 @@ def add_arguments(subparser):
 	return parser
 
 def main(args):
-	with open(args.input, 'r') as file:
+	with cnfio.open(args.input, sys.stdin, 'r') as file:
 		_, _, original = cnftools.load(file)
 		transformed = list(cnftools.simplify.simplify(
 			original,
@@ -53,5 +55,5 @@ def main(args):
 			pure_literals=args.pure_literals,
 		))
 
-	with open(args.output, 'w') as file:
+	with cnfio.open(args.output, sys.stdout, 'w') as file:
 		cnftools.dump(transformed, file)
