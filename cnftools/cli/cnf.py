@@ -1,3 +1,4 @@
+import sys
 import argparse
 
 from . import threecnf
@@ -7,7 +8,7 @@ from . import stats
 from . import pack
 from . import shuffle
 
-def get_cli_arguments():
+def get_cli_arguments(argv=None):
 	parser = argparse.ArgumentParser()
 
 	subparser = parser.add_subparsers(
@@ -24,10 +25,10 @@ def get_cli_arguments():
 	for utility in utilities:
 		utility.add_arguments(subparser)
 
-	return parser.parse_args()
+	return parser.parse_args(args=argv)
 
-def main():
-	args = get_cli_arguments()
+def main(argv=None):
+	args = get_cli_arguments(argv)
 	exit(args.command(args))
 
 if __name__ == '__main__':
