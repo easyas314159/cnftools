@@ -43,6 +43,10 @@ def main(args):
 	for clause in clauses:
 		histogram[len(clause)].append(clause)
 
+	# TODO: Count the total number of disjoint sets in file
+	# TODO: Count the number of horn clauses
+	# TODO: Make the clustergram easier to understand
+
 	for length in sorted(histogram.keys()):
 		print('{nliterals:d}: {nclauses:d}'.format(
 			nliterals=length,
