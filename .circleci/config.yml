@@ -67,8 +67,11 @@ jobs:
           command: |
             . venv/bin/activate
             cnf --help
-            cnf 3cnf --help
+            cnf pack --help
+            cnf shuffle --help
+            cnf simplify --help
             cnf stats --help
+            cnf 3cnf --help
 
       - store_artifacts:
           # TODO: Store lint artifacts
